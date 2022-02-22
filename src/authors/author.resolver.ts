@@ -6,7 +6,7 @@ export class AuthorsResolver {
   constructor(private readonly authorsService: AuthorsService) {}
 
   @Query(() => String)
-  async test(): Promise<string> {
-    return 'test';
+  async author(): Promise<string> {
+    return 'author';
   }
 }
