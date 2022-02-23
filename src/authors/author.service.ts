@@ -14,7 +14,7 @@ export class AuthorsService {
     return this.prisma.author.findFirst(args);
   }
 
-  async create(data: AuthorModel): Promise<AuthorModel> {
+  async create(data: Prisma.AuthorCreateInput): Promise<AuthorModel> {
     return this.prisma.author.create({
       data,
     });
