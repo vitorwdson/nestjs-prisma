@@ -7,9 +7,15 @@ import { BookType } from './dto/book.dto';
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
-  @Query(() => String)
-  async book(): Promise<string> {
-    return 'book';
+  @Query(() => BookType, { nullable: true })
+  async book(
+    @Args('bookId', { type: () => Int }) bookId: number,
+  ): Promise<BookModel> {
+    return this.booksService.findOne({
+      where: {
+        id: bookId,
+      },
+    });
   }
 
   @Query(() => [BookType])
