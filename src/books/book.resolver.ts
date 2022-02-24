@@ -1,7 +1,7 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book as BookModel } from '@prisma/client';
 import { BooksService } from './book.service';
-import { BookType } from './dto/book.dto';
+import { BookType, CreateBookInput } from './dto/book.dto';
 
 @Resolver()
 export class BooksResolver {
@@ -25,6 +25,20 @@ export class BooksResolver {
     return this.booksService.findAll({
       where: {
         authorId,
+      },
+    });
+  }
+
+  @Mutation(() => BookType)
+  async createBook(@Args('data') data: CreateBookInput): Promise<BookModel> {
+    const { authorId, ...rest } = data;
+    return this.booksService.create({
+      ...rest,
+
+      author: {
+        connect: {
+          id: authorId,
+        },
       },
     });
   }
