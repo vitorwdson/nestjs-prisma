@@ -1,7 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book as BookModel } from '@prisma/client';
 import { BooksService } from './book.service';
-import { BookType, CreateBookInput } from './dto/book.dto';
+import { BookType, CreateBookInput, UpdateBookInput } from './dto/book.dto';
 
 @Resolver()
 export class BooksResolver {
@@ -41,5 +41,13 @@ export class BooksResolver {
         },
       },
     });
+  }
+
+  @Mutation(() => BookType)
+  async updateBook(
+    @Args('bookId', { type: () => Int }) bookId: number,
+    @Args('data') data: UpdateBookInput,
+  ): Promise<BookModel> {
+    return this.booksService.update(bookId, data);
   }
 }

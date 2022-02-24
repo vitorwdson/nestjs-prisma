@@ -39,3 +39,13 @@ export class CreateBookInput implements BookModel {
   createdAt: Date;
   updatedAt: Date;
 }
+
+@InputType()
+export class UpdateBookInput implements Prisma.BookUpdateInput {
+  @Field({ nullable: true })
+  title?: string;
+  @Field(() => Int, { nullable: true })
+  pages?: number;
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  releaseDate?: Date;
+}
